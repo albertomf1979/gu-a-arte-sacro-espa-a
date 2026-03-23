@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legado Sagrado de España</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --gold-dark: #8B6914;
+    --crimson: #7A1C2E;
+    --crimson-light: #A02840;
+    --parchment: #F5EDD6;
+    --parchment-dark: #E8D9B8;
+    --ink: #1A1108;
+    --stone: #3D3226;
+    --stone-light: #5C4D3A;
+    --blue-sacred: #1B3A5C;
+    --blue-light: #2A5580;
+    --white: #FAF6EC;
+    --shadow: rgba(0,0,0,0.4);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'EB Garamond', serif;
+    background: var(--ink);
+    color: var(--parchment);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ====== BACKGROUND ====== */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(122,28,46,0.1) 0%, transparent 50%),
+      repeating-linear-gradient(
+        0deg, transparent, transparent 60px,
+        rgba(201,168,76,0.03) 60px, rgba(201,168,76,0.03) 61px
+      ),
+      repeating-linear-gradient(
+        90deg, transparent, transparent 60px,
+        rgba(201,168,76,0.03) 60px, rgba(201,168,76,0.03) 61px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ====== HEADER ====== */
+  header {
+    position: relative;
+    text-align: center;
+    padding: 60px 20px 40px;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    background: linear-gradient(180deg, rgba(26,17,8,0.9) 0%, transparent 100%);
+  }
+
+  .header-ornament {
+    font-size: 2rem;
+    color: var(--gold);
+    letter-spacing: 1rem;
+    margin-bottom: 16px;
+    opacity: 0.7;
+  }
+
+  h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.6rem, 4vw, 3rem);
+    color: var(--gold);
+    text-shadow: 0 0 40px rgba(201,168,76,0.4);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    color: var(--parchment-dark);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  /* ====== NAV TABS ====== */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(26,17,8,0.97);
+    border-bottom: 2px solid var(--gold-dark);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    backdrop-filter: blur(10px);
+  }
+
+  .tab-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 16px;
+    border: none;
+    background: transparent;
+    color: rgba(245,237,214,0.6);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    flex: 1;
+    min-width: 120px;
+    white-space: nowrap;
+  }
+
+  .tab-btn:hover { color: var(--gold-light); background: rgba(201,168,76,0.05); }
+
+  .tab-btn.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+  }
+
+  /* ====== SECTIONS ====== */
+  .section { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+  .section.active { display: block; }
+
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .section-divider {
+    text-align: center;
+    color: var(--gold);
+    font-size: 1.2rem;
+    letter-spacing: 0.5rem;
+    margin-bottom: 32px;
+    opacity: 0.5;
+  }
+
+  /* ====== CARDS ====== */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: linear-gradient(135deg, rgba(61,50,38,0.6) 0%, rgba(26,17,8,0.8) 100%);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .card:hover {
+    border-color: rgba(201,168,76,0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 20px rgba(201,168,76,0.1);
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .card-header {
+    padding: 20px 20px 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .card-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 2px;
+  }
+
+  .card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--gold-light);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .card-meta {
+    font-size: 0.8rem;
+    color: rgba(245,237,214,0.5);
+    font-style: italic;
+  }
+
+  .card-body { padding: 0 20px 20px; }
+
+  .card-desc {
+    font-size: 0.9rem;
+    color: rgba(245,237,214,0.8);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+
+  .tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    padding: 3px 10px;
+    border: 1px solid;
+    border-radius: 1px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .tag-cat { border-color: rgba(201,168,76,0.4); color: var(--gold); background: rgba(201,168,76,0.05); }
+  .tag-style { border-color: rgba(122,28,46,0.5); color: #E07080; background: rgba(122,28,46,0.1); }
+  .tag-era { border-color: rgba(27,58,92,0.5); color: #6A9FD4; background: rgba(27,58,92,0.1); }
+
+  /* ====== DETAILS PANEL ====== */
+  .detail-panel {
+    position: fixed;
+    right: -100%;
+    top: 0;
+    width: min(480px, 100vw);
+    height: 100vh;
+    background: linear-gradient(180deg, rgba(20,12,5,0.99) 0%, rgba(26,17,8,0.99) 100%);
+    border-left: 1px solid var(--gold-dark);
+    z-index: 200;
+    overflow-y: auto;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 30px;
+  }
+
+  .detail-panel.open { right: 0; }
+
+  .detail-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 199;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .detail-overlay.active { opacity: 1; pointer-events: all; }
+
+  .close-btn {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    width: 36px; height: 36px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .close-btn:hover { background: rgba(201,168,76,0.2); }
+
+  .detail-icon { font-size: 3rem; margin-bottom: 16px; }
+
+  .detail-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    color: var(--gold);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .detail-period {
+    font-style: italic;
+    color: rgba(245,237,214,0.5);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  .detail-section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 20px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .detail-text {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: rgba(245,237,214,0.85);
+  }
+
+  .works-list { list-style: none; }
+
+  .works-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    font-size: 0.88rem;
+    color: rgba(245,237,214,0.8);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .works-list li::before {
+    content: '✦';
+    color: var(--gold);
+    font-size: 0.6rem;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  .location-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(27,58,92,0.3);
+    border: 1px solid rgba(100,150,200,0.3);
+    border-radius: 2px;
+    padding: 5px 12px;
+    font-size: 0.82rem;
+    color: #8BBFE0;
+    margin: 4px 4px 4px 0;
+  }
+
+  .web-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 2px;
+    color: var(--gold-light);
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    margin-top: 8px;
+    transition: all 0.2s;
+  }
+
+  .web-link:hover {
+    background: rgba(201,168,76,0.15);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ====== ROUTES ====== */
+  .route-card {
+    background: linear-gradient(135deg, rgba(27,58,92,0.2) 0%, rgba(26,17,8,0.8) 100%);
+    border: 1px solid rgba(100,150,200,0.2);
+    border-radius: 2px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .route-header {
+    padding: 20px 24px;
+    background: rgba(27,58,92,0.3);
+    border-bottom: 1px solid rgba(100,150,200,0.2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.2s;
+  }
+
+  .route-header:hover { background: rgba(27,58,92,0.4); }
+
+  .route-title-wrap { display: flex; align-items: center; gap: 14px; }
+
+  .route-emoji { font-size: 1.8rem; }
+
+  .route-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.05rem;
+    color: #8BBFE0;
+    margin-bottom: 4px;
+  }
+
+  .route-info {
+    font-size: 0.8rem;
+    color: rgba(245,237,214,0.5);
+  }
+
+  .route-toggle { color: var(--gold); font-size: 1.2rem; transition: transform 0.3s; }
+  .route-toggle.open { transform: rotate(180deg); }
+
+  .route-body { display: none; padding: 20px 24px; }
+  .route-body.open { display: block; }
+
+  .route-stops { list-style: none; position: relative; padding-left: 20px; }
+
+  .route-stops::before {
+    content: '';
+    position: absolute;
+    left: 6px; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(180deg, var(--gold), rgba(201,168,76,0.1));
+  }
+
+  .route-stops li {
+    position: relative;
+    padding: 10px 0 10px 20px;
+    font-size: 0.88rem;
+    color: rgba(245,237,214,0.8);
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+  }
+
+  .route-stops li::before {
+    content: '◆';
+    position: absolute;
+    left: -2px;
+    color: var(--gold);
+    font-size: 0.5rem;
+    top: 14px;
+  }
+
+  .stop-name { font-family: 'Cinzel', serif; font-size: 0.85rem; color: var(--gold-light); }
+  .stop-time { font-size: 0.75rem; color: rgba(245,237,214,0.4); margin-top: 2px; }
+  .stop-note { font-size: 0.8rem; font-style: italic; color: rgba(245,237,214,0.6); margin-top: 3px; }
+
+  /* ====== ARCHITECTURE ====== */
+  .arch-era {
+    margin-bottom: 32px;
+  }
+
+  .arch-era-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--crimson-light);
+    padding: 10px 16px;
+    background: rgba(122,28,46,0.15);
+    border-left: 3px solid var(--crimson-light);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+
+  .arch-item {
+    background: rgba(40,28,16,0.6);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 2px;
+    padding: 16px;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .arch-item:hover {
+    border-color: rgba(201,168,76,0.4);
+    background: rgba(50,36,20,0.7);
+  }
+
+  .arch-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: var(--gold-light);
+    margin-bottom: 4px;
+  }
+
+  .arch-location {
+    font-size: 0.78rem;
+    color: rgba(245,237,214,0.5);
+    margin-bottom: 6px;
+  }
+
+  .arch-desc {
+    font-size: 0.82rem;
+    color: rgba(245,237,214,0.7);
+    line-height: 1.5;
+  }
+
+  .arch-religious {
+    margin-top: 8px;
+    font-size: 0.75rem;
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .arch-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.72rem;
+    color: #6A9FD4;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: color 0.2s;
+  }
+
+  .arch-link:hover { color: #8BBFE0; }
+
+  /* ====== FILTER BAR ====== */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: rgba(30,20,10,0.4);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 2px;
+  }
+
+  .filter-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    color: rgba(245,237,214,0.4);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    margin-right: 4px;
+  }
+
+  .filter-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    padding: 5px 12px;
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.2);
+    color: rgba(245,237,214,0.6);
+    cursor: pointer;
+    border-radius: 1px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ====== SEARCH ====== */
+  .search-wrap {
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 12px 16px 12px 44px;
+    background: rgba(30,20,10,0.6);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 2px;
+    color: var(--parchment);
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-input:focus { border-color: rgba(201,168,76,0.5); }
+  .search-input::placeholder { color: rgba(245,237,214,0.3); }
+
+  .search-icon {
+    position: absolute;
+    left: 14px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold);
+    opacity: 0.5;
+  }
+
+  /* ====== INTRO ====== */
+  .intro-hero {
+    text-align: center;
+    padding: 20px 20px 40px;
+    max-width: 800px;
+    margin: 0 auto 40px;
+  }
+
+  .intro-text {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: rgba(245,237,214,0.75);
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 32px;
+  }
+
+  .stat-box {
+    text-align: center;
+    padding: 20px 28px;
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 2px;
+  }
+
+  .stat-num {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 2.2rem;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(245,237,214,0.5);
+  }
+
+  /* ====== RESPONSIVE ====== */
+  @media (max-width: 600px) {
+    .tab-btn { font-size: 0.6rem; padding: 12px 8px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .arch-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ====== ANIMATIONS ====== */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section.active .card, .section.active .route-card, .section.active .arch-era {
+    animation: fadeInUp 0.4s ease forwards;
+  }
+
+  .section.active .card:nth-child(1) { animation-delay: 0.05s; }
+  .section.active .card:nth-child(2) { animation-delay: 0.10s; }
+  .section.active .card:nth-child(3) { animation-delay: 0.15s; }
+  .section.active .card:nth-child(4) { animation-delay: 0.20s; }
+  .section.active .card:nth-child(5) { animation-delay: 0.25s; }
+  .section.active .card:nth-child(6) { animation-delay: 0.30s; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-ornament">✦ ✦ ✦</div>
+  <h1>Legado Sagrado de España</h1>
+  <p class="subtitle">Religiosos · Arte · Arquitectura · Rutas de Peregrinación</p>
+</header>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <button class="tab-btn active" onclick="showSection('intro')">✦ Inicio</button>
+  <button class="tab-btn" onclick="showSection('religiosos')">☩ Religiosos</button>
+  <button class="tab-btn" onclick="showSection('arquitectura')">🏛 Arquitectura</button>
+  <button class="tab-btn" onclick="showSection('rutas')">🗺 Rutas</button>
+</nav>
+
+<!-- DETAIL OVERLAY -->
+<div class="detail-overlay" id="overlay" onclick="closeDetail()"></div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-panel" id="detailPanel">
+  <button class="close-btn" onclick="closeDetail()">✕</button>
+  <div id="detailContent"></div>
+</div>
+
+<!-- ============================== INTRO ============================== -->
+<section id="intro" class="section active">
+  <div class="intro-hero">
+    <div class="section-title">Explorando el Legado Espiritual y Artístico de España</div>
+    <div class="section-divider">✦ ✦ ✦</div>
+    <p class="intro-text">
+      España es uno de los países con mayor riqueza espiritual y artística del mundo cristiano. 
+      Desde los primeros templos visigodos hasta la majestuosa Sagrada Familia, su territorio 
+      es un testimonio vivo de fe, arte y cultura. Esta aplicación recoge los grandes religiosos 
+      españoles y el patrimonio arquitectónico sacro que dejaron para la humanidad.
+    </p>
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num">28</div>
+        <div class="stat-label">Religiosos y Religiosas</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">70+</div>
+        <div class="stat-label">Monumentos Sacros</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">9</div>
+        <div class="stat-label">Estilos Arquitectónicos</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">8</div>
+        <div class="stat-label">Rutas de Viaje</div>
+      </div>
+    </div>
+  </div>
+  <div class="cards-grid" style="max-width:900px;margin:0 auto;">
+    <div class="card" onclick="showSection('religiosos'); setFilter('todos')">
+      <div class="card-header">
+        <div class="card-icon">☩</div>
+        <div>
+          <div class="card-title">Religiosos y Religiosas</div>
+          <div class="card-meta">Santos, Místicos, Teólogos, Misioneros</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Explora la vida y legado de los grandes religiosos españoles: sus obras, sus localizaciones y su impacto en la historia de la Iglesia y la cultura.</p>
+      </div>
+    </div>
+    <div class="card" onclick="showSection('arquitectura')">
+      <div class="card-header">
+        <div class="card-icon">🏛</div>
+        <div>
+          <div class="card-title">Arquitectura Sacra</div>
+          <div class="card-meta">Del Prerrománico al Modernismo</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Catedrales, monasterios, iglesias y ermitas organizadas por estilos, con sus conexiones a los grandes religiosos y enlaces a webs oficiales.</p>
+      </div>
+    </div>
+    <div class="card" onclick="showSection('rutas')">
+      <div class="card-header">
+        <div class="card-icon">🗺</div>
+        <div>
+          <div class="card-title">Rutas de Viaje</div>
+          <div class="card-meta">8 rutas temáticas por España</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Itinerarios detallados para visitar el patrimonio sacro español, con tiempos orientativos, paradas y conexiones con el legado de los religiosos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== RELIGIOSOS ============================== -->
+<section id="religiosos" class="section">
+  <div class="section-title">Religiosos y Religiosas Españoles con Gran Legado</div>
+  <div class="section-divider">✦ ✦ ✦</div>
+  
+  <div class="filter-bar">
+    <span class="filter-label">Categoría:</span>
+    <button class="filter-btn active" onclick="filterReligiosos('todos', this)">Todos</button>
+    <button class="filter-btn" onclick="filterReligiosos('santo', this)">Santos y Místicos</button>
+    <button class="filter-btn" onclick="filterReligiosos('teologo', this)">Teólogos</button>
+    <button class="filter-btn" onclick="filterReligiosos('misionero', this)">Misioneros</button>
+    <button class="filter-btn" onclick="filterReligiosos('fundador', this)">Fundadores</button>
+    <button class="filter-btn" onclick="filterReligiosos('cultural', this)">Cultural/Artístico</button>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" placeholder="Buscar por nombre, lugar, obra..." oninput="searchReligiosos(this.value)" id="searchInput">
+  </div>
+
+  <div class="cards-grid" id="religiosGrid"></div>
+</section>
+
+<!-- ============================== ARQUITECTURA ============================== -->
+<section id="arquitectura" class="section">
+  <div class="section-title">Arquitectura Sacra de España</div>
+  <div class="section-divider">✦ ✦ ✦</div>
+  
+  <div class="filter-bar">
+    <span class="filter-label">Estilo:</span>
+    <button class="filter-btn active" onclick="filterArch('todos', this)">Todos</button>
+    <button class="filter-btn" onclick="filterArch('visigodo', this)">Visigodo</button>
+    <button class="filter-btn" onclick="filterArch('prerromanico', this)">Prerrománico</button>
+    <button class="filter-btn" onclick="filterArch('romanico', this)">Románico</button>
+    <button class="filter-btn" onclick="filterArch('gotico', this)">Gótico</button>
+    <button class="filter-btn" onclick="filterArch('renacimiento', this)">Renacimiento</button>
+    <button class="filter-btn" onclick="filterArch('barroco', this)">Barroco</button>
+    <button class="filter-btn" onclick="filterArch('neogótico', this)">Neogótico</button>
+    <button class="filter-btn" onclick="filterArch('modernismo', this)">Modernismo</button>
+  </div>
+  
+  <div id="archContent"></div>
+</section>
+
+<!-- ============================== RUTAS ============================== -->
+<section id="rutas" class="section">
+  <div class="section-title">Rutas de Viaje por el Patrimonio Sacro</div>
+  <div class="section-divider">✦ ✦ ✦</div>
+  <div id="rutasContent"></div>
+</section>
+
+<script>
+// ================================================================
+// DATA
+// ================================================================
+
+const religiosos = [
+  {
+    id: 1, cat: 'santo',
+    icon: '✝', name: 'San Isidoro de Sevilla', period: 'ss. VI-VII (c. 560-636)',
+    desc: 'Arzobispo de Sevilla, considerado el último Padre de la Iglesia de Occidente y el primer enciclopedista medieval. Su obra "Etymologiae" fue el libro más leído tras la Biblia durante siglos.',
+    obras: ['Etymologiae (20 volúmenes enciclopédicos)', 'Sententiarum libri tres', 'De natura rerum', 'Historia de regibus Gothorum', 'De differentiis verborum'],
+    localizaciones: ['Sevilla (Basílica de San Isidoro del Campo)', 'León (Real Basílica de San Isidoro - conserva sus reliquias)', 'Cartagena (ciudad natal)'],
+    religiosos_link: 'https://www.basilicasanisidoro.es',
+    relacion_arq: 'Sus reliquias descansan en la Real Basílica de San Isidoro de León, joya del románico español.',
+    web: [{ label: 'Basílica San Isidoro de León', url: 'https://www.basilicasanisidoro.es' }]
+  },
+  {
+    id: 2, cat: 'santo',
+    icon: '✝', name: 'San Juan de la Cruz', period: 'ss. XVI (1542-1591)',
+    desc: 'Místico y poeta carmelita, coformador del Carmelo Descalzo junto a Santa Teresa. Sus obras son cumbres de la literatura española y de la mística universal.',
+    obras: ['Noche Oscura del Alma', 'Cántico Espiritual', 'Llama de Amor Viva', 'Subida al Monte Carmelo', 'Poemas: "En una Noche Oscura"'],
+    localizaciones: ['Fontiveros, Ávila (ciudad natal)', 'Segovia (Convento de los Carmelitas, donde murió)', 'Ávila (Convento de la Encarnación)', 'Úbeda, Jaén (Oratorio donde murió)', 'Medina del Campo, Valladolid'],
+    relacion_arq: 'El Convento del Calvario en Jaén y el Santuario de Segovia son los principales espacios ligados a su vida.',
+    web: [{ label: 'Museo San Juan de la Cruz Segovia', url: 'https://www.museosanjuandelacruz.es' }, { label: 'Sanctuario Úbeda', url: 'https://www.sanjuandelacruzenubeda.es' }]
+  },
+  {
+    id: 3, cat: 'santo',
+    icon: '✝', name: 'Santa Teresa de Jesús', period: 'ss. XVI (1515-1582)',
+    desc: 'Mística abulense, reformadora del Carmelo Descalzo, escritora excepcional y primera mujer Doctora de la Iglesia en España. Su vida y obra son un pilar del Siglo de Oro espiritual.',
+    obras: ['Camino de Perfección', 'Las Moradas o Castillo Interior', 'El Libro de la Vida (autobiografía)', 'Libro de las Fundaciones', 'Poesías: "Vivo sin vivir en mí"'],
+    localizaciones: ['Ávila (Convento de Santa Teresa - lugar de nacimiento)', 'Alba de Tormes, Salamanca (lugar de muerte, reliquias)', 'Segovia (Convento de San José)', 'Valladolid (Convento de la Concepción)', 'Toledo (Convento de la Concepción)'],
+    relacion_arq: 'Fundó 17 conventos por toda España, todos visitables. El Convento de San José de Ávila fue el primero de la reforma.',
+    web: [{ label: 'Convento Santa Teresa Ávila', url: 'https://www.teresadejesusavila.com' }, { label: 'Alba de Tormes', url: 'https://www.albadetormes.org' }]
+  },
+  {
+    id: 4, cat: 'santo',
+    icon: '✦', name: 'San Ignacio de Loyola', period: 'ss. XV-XVI (1491-1556)',
+    desc: 'Fundador de la Compañía de Jesús (jesuitas), uno de los reformadores más influyentes de la historia de la Iglesia. Sus "Ejercicios Espirituales" siguen siendo practicados mundialmente.',
+    obras: ['Ejercicios Espirituales', 'Constituciones de la Compañía de Jesús', 'Autobiografía (Relato del Peregrino)'],
+    localizaciones: ['Azpeitia, Guipúzcoa (Santuario de Loyola - lugar de nacimiento)', 'Manresa, Barcelona (Cueva de San Ignacio - iluminación espiritual)', 'Montserrat, Barcelona', 'Roma (a su llegada definitiva)'],
+    relacion_arq: 'El monumental Santuario de Loyola, diseñado por Carlo Fontana en estilo barroco, es uno de los edificios más imponentes del norte de España.',
+    web: [{ label: 'Santuario de Loyola', url: 'https://www.santuariodeloyola.org' }, { label: 'Cueva de Manresa', url: 'https://www.manresajesuits.org' }]
+  },
+  {
+    id: 5, cat: 'misionero',
+    icon: '⛵', name: 'San Francisco Javier', period: 'ss. XV-XVI (1506-1552)',
+    desc: 'Jesuita navarro, uno de los misioneros más extraordinarios de la historia. Evangelizó India, Malasia, Indonesia y Japón. Murió en la isla de Shangchuan intentando entrar en China.',
+    obras: ['Cartas de misión (documentos históricos de primer orden)', 'Catecismo en Tamil y Japonés'],
+    localizaciones: ['Javier, Navarra (Castillo-Santuario de Javier - lugar de nacimiento)', 'Pamplona (estudios)', 'Roma (con Ignacio de Loyola)'],
+    relacion_arq: 'El Castillo de Javier es un conjunto medieval y renacentista de gran belleza, con un Cristo crucificado que según la tradición sudó al morir Javier.',
+    web: [{ label: 'Santuario de Javier', url: 'https://www.franciscojavier.com' }]
+  },
+  {
+    id: 6, cat: 'santo',
+    icon: '✝', name: 'San Juan de Ávila', period: 'ss. XV-XVI (1499-1569)',
+    desc: 'Apóstol de Andalucía, predicador reformador y escritor espiritual. Doctor de la Iglesia desde 2012. Influyó directamente en San Juan de la Cruz, Santa Teresa y San Francisco de Borja.',
+    obras: ['Audi Filia', 'Epistolario espiritual', 'Cartas a la Iglesia sobre la reforma'],
+    localizaciones: ['Almodóvar del Campo, Ciudad Real (lugar de nacimiento)', 'Montilla, Córdoba (donde predicó y murió)', 'Baeza, Jaén (fundó la Universidad)'],
+    relacion_arq: 'La Catedral de Baeza y la Iglesia de Santiago de Montilla están íntimamente ligadas a su apostolado.',
+    web: [{ label: 'Santuario Juan de Ávila Montilla', url: 'https://www.juandeavila.com' }]
+  },
+  {
+    id: 7, cat: 'teologo',
+    icon: '📜', name: 'Beato Raimundo Lulio', period: 'ss. XIII-XIV (1232-1316)',
+    desc: 'Filósofo, teólogo, poeta y misionero mallorquín. Precursor del diálogo interreligioso y de la lógica formal. Escribió más de 250 obras en catalán, árabe y latín. Murió mártir en Túnez.',
+    obras: ['Ars Magna (lógica combinatoria)', 'Blanquerna (novela mística)', 'Llibre de les Meravelles', 'Llibre de Contemplació en Déu', 'Doctrina Pueril'],
+    localizaciones: ['Palma de Mallorca (lugar de nacimiento, Basílica de San Francisco)', 'Miramar, Mallorca (fundó un colegio de lenguas orientales)', 'Randa, Mallorca (Monte de iluminación)'],
+    relacion_arq: 'La Basílica de San Francisco de Palma, gótico mallorquín del s. XIV, custodia sus restos.',
+    web: [{ label: 'Basílica San Francisco Palma', url: 'https://www.conventosanfranciscopalma.com' }]
+  },
+  {
+    id: 8, cat: 'teologo',
+    icon: '📜', name: 'Francisco de Vitoria', period: 'ss. XV-XVI (c. 1483-1546)',
+    desc: 'Dominico burgalés, padre del Derecho Internacional y precursor de los derechos humanos. Sus "Relectiones" sobre los derechos de los indígenas americanos fueron revolucionarias.',
+    obras: ['De Indis (sobre los derechos de los indios)', 'De Iure Belli (sobre la guerra justa)', 'Relectiones Theologicae'],
+    localizaciones: ['Burgos (ciudad natal)', 'Salamanca (Convento de San Esteban, Universidad)', 'Vitoria-Gasteiz (por quien recibe el nombre)'],
+    relacion_arq: 'La Universidad de Salamanca, en estilo plateresco, fue el escenario de sus célebres Relectiones.',
+    web: [{ label: 'Universidad de Salamanca', url: 'https://www.usal.es' }]
+  },
+  {
+    id: 9, cat: 'teologo',
+    icon: '📜', name: 'Francisco Suárez', period: 'ss. XVI-XVII (1548-1617)',
+    desc: 'Jesuita granadino, considerado uno de los mayores filósofos y teólogos de todos los tiempos. Influyó decisivamente en Descartes, Leibniz y Grotius. Llamado "Doctor Eximius".',
+    obras: ['Disputationes Metaphysicae', 'De Legibus', 'Defensio Fidei Catholicae', 'De Gratia'],
+    localizaciones: ['Granada (lugar de nacimiento)', 'Salamanca (estudios y docencia)', 'Évora, Portugal (últimos años)'],
+    relacion_arq: 'La Catedral de Granada y el Convento de San Gregorio en Valladolid son espacios ligados a su vida y época.',
+    web: []
+  },
+  {
+    id: 10, cat: 'teologo',
+    icon: '📜', name: 'Luis de Granada', period: 'ss. XV-XVI (1504-1588)',
+    desc: 'Dominico granadino, uno de los escritores espirituales más leídos de Europa en el s. XVI. Sus obras de espiritualidad fueron traducidas a 14 idiomas. Reformador de la predicación.',
+    obras: ['Guía de Pecadores', 'Libro de la Oración y Meditación', 'Memorial de la Vida Cristiana', 'Introducción al Símbolo de la Fe'],
+    localizaciones: ['Granada (ciudad natal, Convento de Santa Cruz)', 'Lisboa (prior del Convento de Batalha)', 'Salamanca (estudios con Francisco de Vitoria)'],
+    relacion_arq: 'El Convento de Santa Cruz la Real de Granada (hoy Parador de Granada) fue su claustro de inicio.',
+    web: []
+  },
+  {
+    id: 11, cat: 'misionero',
+    icon: '⛵', name: 'Fray Bartolomé de las Casas', period: 'ss. XV-XVI (1484-1566)',
+    desc: 'Dominico sevillano, primer sacerdote ordenado en América y el gran defensor de los derechos de los indígenas. Su "Brevísima relación" cambió la conciencia europea sobre la conquista.',
+    obras: ['Brevísima Relación de la Destrucción de las Indias', 'Historia de las Indias', 'Apologética Historia Sumaria', 'De Unico Vocationis Modo'],
+    localizaciones: ['Sevilla (ciudad natal, Catedral)', 'Salamanca (Convento de San Esteban)', 'Valladolid (debates de Valladolid, 1550-1551)', 'Chiapas, México (Obispo de Chiapa)'],
+    relacion_arq: 'El Colegio de San Gregorio en Valladolid fue escenario de las célebres disputas sobre la legitimidad de la conquista.',
+    web: [{ label: 'Archivo General de Indias Sevilla', url: 'https://www.culturaydeporte.gob.es/archivos-agi' }]
+  },
+  {
+    id: 12, cat: 'misionero',
+    icon: '⛵', name: 'Fray Junípero Serra', period: 'ss. XVIII (1713-1784)',
+    desc: 'Franciscano mallorquín, fundador de las misiones de California. Fundó 9 de las 21 misiones costeras, hoy Patrimonio de la Humanidad. Canonizado por el Papa Francisco en 2015.',
+    obras: ['21 Misiones de California (legado arquitectónico y espiritual)', 'Diarios de misión', 'Cartas a la Corona española'],
+    localizaciones: ['Petra, Mallorca (lugar de nacimiento, Casa Museu)', 'Palma de Mallorca (Convento de San Francisco)', 'San Diego (primera misión fundada, 1769)', 'Monterey, California (misión central)'],
+    relacion_arq: 'La Casa Museu en Petra y el Convento de San Francisco de Palma conservan su memoria.',
+    web: [{ label: 'Casa Museu Junípero Serra Petra', url: 'https://www.juniperoserrapetra.cat' }]
+  },
+  {
+    id: 13, cat: 'fundador',
+    icon: '🏛', name: 'San Domingo de Guzmán', period: 'ss. XII-XIII (1170-1221)',
+    desc: 'Fundador de la Orden de Predicadores (dominicos), revolucionó la vida religiosa creando una orden dedicada al estudio y la predicación. Nació en Caleruega, Burgos.',
+    obras: ['Fundación de la Orden de Predicadores (1216)', 'Rosario del Santo Domingo (tradición)', 'Convento de Prouille (primer convento femenino)'],
+    localizaciones: ['Caleruega, Burgos (lugar de nacimiento, Monasterio)', 'Segovia (primer convento dominico en España)', 'Bolonia, Italia (sepultura, Basílica de San Domenico)', 'Santo Domingo de la Calzada, La Rioja'],
+    relacion_arq: 'El Monasterio de Santo Domingo de Caleruega, en estilo gótico-mudéjar, fue construido por Alfonso X el Sabio sobre su casa natal.',
+    web: [{ label: 'Monasterio Caleruega', url: 'https://www.monasterio-caleruega.com' }]
+  },
+  {
+    id: 14, cat: 'fundador',
+    icon: '🏛', name: 'San Pedro Nolasco', period: 'ss. XII-XIII (c. 1189-1256)',
+    desc: 'Cofundador de la Orden de la Merced para la redención de cautivos cristinos en manos musulmanas. Su obra salvó a miles de personas de la esclavitud.',
+    obras: ['Fundación de la Orden de la Merced (1218)', 'Constituciones de la Merced'],
+    localizaciones: ['Mas-Saintes-Puelles, Francia (o El Mas, Languedoc, según tradición)', 'Barcelona (Basílica de la Mercè)', 'Valencia (Convento de la Merced)'],
+    relacion_arq: 'La Basílica de la Mercè de Barcelona es el centro de devoción más importante de la Orden en España.',
+    web: [{ label: 'Basílica La Mercè Barcelona', url: 'https://www.basilicadelamerce.cat' }]
+  },
+  {
+    id: 15, cat: 'fundador',
+    icon: '🏛', name: 'Santa Ángela de la Cruz', period: 'ss. XIX-XX (1846-1932)',
+    desc: 'Fundadora de las Hermanas de la Cruz en Sevilla, consagró su vida a los más pobres y marginados. Canonizada por Juan Pablo II en 2003. Su vida de humildad es un ejemplo del catolicismo social.',
+    obras: ['Fundación de las Hermanas de la Cruz (Sevilla, 1875)', 'Escritos espirituales', 'Casas de acogida para los pobres de Sevilla'],
+    localizaciones: ['Sevilla (Capilla de las Hermanas de la Cruz, Casa Madre)', 'Sevilla (lugar de nacimiento en el barrio de la Feria)'],
+    relacion_arq: 'La Casa Madre de las Hermanas de la Cruz en el barrio de San Roque, Sevilla, es lugar de peregrinación.',
+    web: [{ label: 'Hermanas de la Cruz Sevilla', url: 'https://www.hermanasdela cruz.es' }]
+  },
+  {
+    id: 16, cat: 'fundador',
+    icon: '🏛', name: 'San José de Calasanz', period: 'ss. XVI-XVII (1557-1648)',
+    desc: 'Fundador de las Escuelas Pías (escolapios), pionero de la enseñanza primaria pública y gratuita para niños pobres en Europa. Revolucionó la educación popular.',
+    obras: ['Fundación de las Escuelas Pías (Roma, 1597)', 'Primeras escuelas gratuitas y públicas de Europa'],
+    localizaciones: ['Peralta de la Sal, Huesca (lugar de nacimiento, Santuario)', 'Urgell, Lleida (estudios de Teología)', 'Roma (fundación de las Escuelas Pías)'],
+    relacion_arq: 'El Santuario de Peralta de la Sal es un conjunto barroco del s. XVIII construido en su honor.',
+    web: [{ label: 'Santuario Calasanz', url: 'https://www.santuariocalasanz.es' }]
+  },
+  {
+    id: 17, cat: 'cultural',
+    icon: '🎨', name: 'Antoni Gaudí', period: 'ss. XIX-XX (1852-1926)',
+    desc: 'Arquitecto catalán de fe profunda, toda su obra es una expresión religiosa. Actualmente en proceso de beatificación. La Sagrada Familia es el edificio más visitado de España.',
+    obras: ['Sagrada Familia (Barcelona, 1882-actualidad)', 'Palau Güell (Barcelona)', 'Park Güell (Barcelona)', 'Casa Batlló y Casa Milà "La Pedrera"', 'Cripta de la Colònia Güell (Sta. Coloma de Cervelló)', 'Catedral de Palma de Mallorca (restauración)'],
+    localizaciones: ['Reus, Tarragona (lugar de nacimiento)', 'Barcelona (Sagrada Familia, Park Güell)', 'Santa Coloma de Cervelló (Cripta Güell)'],
+    relacion_arq: 'Su obra mayor, la Sagrada Familia, es el templo más ambicioso de la historia del arte sacro moderno.',
+    web: [{ label: 'Sagrada Familia', url: 'https://www.sagradafamilia.org' }, { label: 'Casa Museu Gaudí', url: 'https://www.casamuseugaudi.org' }]
+  },
+  {
+    id: 18, cat: 'cultural',
+    icon: '📝', name: 'Fray Luis de León', period: 'ss. XVI (1527-1591)',
+    desc: 'Agustino, poeta renacentista y humanista. Profesor en Salamanca, encarcelado por la Inquisición por su traducción del Cantar de los Cantares. Su "Vida Retirada" es una de las grandes odas de la literatura española.',
+    obras: ['Oda a la Vida Retirada', 'Oda a Francisco de Salinas', 'Noche Serena', 'Los Nombres de Cristo', 'La Perfecta Casada', 'Traducción del Cantar de los Cantares'],
+    localizaciones: ['Belmonte, Cuenca (lugar de nacimiento)', 'Salamanca (Universidad, Convento de San Agustín)', 'Toledo (estudios)'],
+    relacion_arq: 'La Universidad de Salamanca y el Convento de San Agustín son sus escenarios vitales. Su estatua frente a la Universidad es emblemática.',
+    web: [{ label: 'Universidad de Salamanca Patrimonio', url: 'https://www.usal.es/patrimonio' }]
+  },
+  {
+    id: 19, cat: 'cultural',
+    icon: '🎭', name: 'Lope de Vega (sacerdote)', period: 'ss. XVI-XVII (1562-1635)',
+    desc: 'El mayor dramaturgo del Siglo de Oro español. Ordenado sacerdote en 1614. Escribió más de 1800 obras de teatro, muchas de temática religiosa. Caballero de la Orden de Malta.',
+    obras: ['El mejor alcalde el Rey', 'Fuente Ovejuna', 'La dama boba', 'Autos sacramentales (teatro religioso)', 'Rimas Sacras (poesía religiosa)', 'La hermosura de Angélica'],
+    localizaciones: ['Madrid (Casa de Lope de Vega - hoy museo)', 'Toledo (etapas de su vida)', 'Valencia (exilio tras escándalo amoroso)'],
+    relacion_arq: 'La Casa de Lope de Vega en Madrid es la casa museo más antigua de Europa dedicada a un escritor.',
+    web: [{ label: 'Casa Museo Lope de Vega Madrid', url: 'https://www.casamuseolopedevega.org' }]
+  },
+  {
+    id: 20, cat: 'misionero',
+    icon: '⛵', name: 'Fray Bernardino de Sahagún', period: 'ss. XV-XVI (c. 1499-1590)',
+    desc: 'Franciscano leonés, evangelizador y etnógrafo en México. Su "Historia General de las Cosas de Nueva España" es el documento más importante para conocer la cultura azteca.',
+    obras: ['Historia General de las Cosas de Nueva España (Códice Florentino)', 'Evangeliario en náhuatl', 'Gramática de la Lengua Mexicana'],
+    localizaciones: ['Sahagún, León (lugar de nacimiento)', 'Salamanca (estudios en San Francisco)', 'Ciudad de México (Santa Cruz de Tlatelolco)'],
+    relacion_arq: 'La Colegiata de Sahagún, románica, y el Colegio de Santa Cruz de Tlatelolco son sus referencias.',
+    web: []
+  },
+  {
+    id: 21, cat: 'santo',
+    icon: '✝', name: 'San Ildefonso de Toledo', period: 's. VII (c. 607-667)',
+    desc: 'Arzobispo visigodo de Toledo, gran defensor del culto mariano y de la virginidad de María. Su "De virginitate perpetua Mariae" fue esencial en la teología mariana medieval.',
+    obras: ['De virginitate perpetua Sanctae Mariae', 'De cognitione baptismi', 'De itinere deserti'],
+    localizaciones: ['Toledo (Catedral, Capilla de San Ildefonso)', 'Zamora (Monasterio de Agali, formación)'],
+    relacion_arq: 'La Catedral de Toledo, orgullo del gótico español, custodia su memoria. Según la tradición, la Virgen le entregó aquí su casulla.',
+    web: [{ label: 'Catedral de Toledo', url: 'https://www.catedralprimada.es' }]
+  },
+  {
+    id: 22, cat: 'santo',
+    icon: '✝', name: 'San Leandro de Sevilla', period: 's. VI (c. 534-600)',
+    desc: 'Arzobispo de Sevilla y hermano mayor de San Isidoro. Fue el artífice de la conversión del rey visigodo Recaredo del arrianismo al catolicismo (589), unificando religiosamente España.',
+    obras: ['De institutione virginum et contemptu mundi', 'Homilía en el III Concilio de Toledo'],
+    localizaciones: ['Cartagena (ciudad natal)', 'Sevilla (sede episcopal, Catedral)'],
+    relacion_arq: 'La Catedral de Sevilla se alza sobre la antigua sede episcopal que él ocupó.',
+    web: [{ label: 'Catedral de Sevilla', url: 'https://www.catedraldesevilla.es' }]
+  },
+  {
+    id: 23, cat: 'teologo',
+    icon: '📜', name: 'Melchor Cano', period: 'ss. XVI (1509-1560)',
+    desc: 'Teólogo dominico, uno de los principales representantes de la Segunda Escolástica. Sus "De locis theologicis" establecieron los fundamentos metodológicos de la teología moderna. Clave en el Concilio de Trento.',
+    obras: ['De locis theologicis (metodología teológica)', 'Relectio de paenitentia', 'Cartas sobre la Compañía de Jesús'],
+    localizaciones: ['Tarancón, Cuenca (lugar de nacimiento)', 'Salamanca (cátedra de Prima de Teología)', 'Toledo (Provincial dominico)'],
+    relacion_arq: 'La Universidad de Salamanca y el Convento de San Esteban son sus escenarios intelectuales.',
+    web: []
+  },
+  {
+    id: 24, cat: 'fundador',
+    icon: '🏛', name: 'Santa Magdalena de Pazzi', period: 's. XVI (1566-1607)',
+    desc: 'Mística carmelita florentina que vivió en España y es venerada también aquí. Sus visiones y éxtasis fueron documentados y canonizados por la Iglesia. Patrona de Nápoles.',
+    obras: ['Los Cuarenta Días (revelaciones)', 'Renovación de la Iglesia (cartas)', 'Coloquios'],
+    localizaciones: ['Florencia (principalmente)', 'España (convento de Sevilla)'],
+    relacion_arq: 'El Convento de las Carmelitas de Sevilla guarda su devoción.',
+    web: []
+  },
+  {
+    id: 25, cat: 'fundador',
+    icon: '🏛', name: 'Santa María Micaela del Santísimo Sacramento', period: 's. XIX (1809-1865)',
+    desc: 'Fundadora de las Adoratrices Esclavas del Santísimo Sacramento y de la Caridad. Abandonó su vida aristocrática para trabajar con prostitutas y marginados sociales de Madrid.',
+    obras: ['Fundación de las Adoratrices (Madrid, 1856)', 'Casas de acogida en Madrid, Valencia, Zaragoza'],
+    localizaciones: ['Madrid (Casa Central de las Adoratrices, Calle Orellana)', 'Valencia (falleció aquí de cólera atendiendo a enfermos)'],
+    relacion_arq: 'La capilla de las Adoratrices en Madrid es lugar de culto.',
+    web: []
+  },
+  {
+    id: 26, cat: 'teologo',
+    icon: '📜', name: 'Domingo de Soto', period: 'ss. XVI (1494-1560)',
+    desc: 'Dominico soriano, teólogo y filósofo. Defensor de la justicia social y de los derechos de los pobres. Confesor de Carlos V y participante en el Concilio de Trento.',
+    obras: ['De Iustitia et Iure', 'Deliberación en la causa de los pobres', 'In Porphyrium Isagogem'],
+    localizaciones: ['Segovia (lugar de nacimiento)', 'Salamanca (Convento de San Esteban, cátedra)', 'Trento (Concilio)'],
+    relacion_arq: 'El Convento de San Esteban de Salamanca, plateresco, fue su centro intelectual.',
+    web: []
+  },
+  {
+    id: 27, cat: 'santo',
+    icon: '✝', name: 'San Pedro de Alcántara', period: 'ss. XV-XVI (1499-1562)',
+    desc: 'Reformador franciscano extremeño, conocido por su extrema austeridad. Fue confesor y director espiritual de Santa Teresa de Ávila, quien lo consideró su guía más importante.',
+    obras: ['Tratado de la Oración y Meditación (influyó en toda la mística española)'],
+    localizaciones: ['Alcántara, Cáceres (lugar de nacimiento)', 'Arenas de San Pedro, Ávila (lugar de muerte, Convento del Pedroso)', 'El Palancar, Cáceres (convento que fundó, el más pequeño del mundo)'],
+    relacion_arq: 'El Convento de El Palancar, con celdas de menos de 2 metros, es un monumento único del franciscanismo reformado.',
+    web: []
+  },
+  {
+    id: 28, cat: 'misionero',
+    icon: '⛵', name: 'Santo Toribio de Mogrovejo', period: 'ss. XVI-XVII (1538-1606)',
+    desc: 'Arzobispo de Lima, gran evangelizador del Virreinato del Perú. Aprendió quechua y otras lenguas indígenas para predicar directamente. Convocó concilios provinciales que organizaron la Iglesia en América.',
+    obras: ['Concilios Provinciales de Lima (III Concilio: 1582-1583)', 'Catecismo en español, quechua y aimara', 'Evangelización de todo el Virreinato del Perú'],
+    localizaciones: ['Mayorga, Valladolid (lugar de nacimiento)', 'Salamanca (estudios)', 'Lima, Perú (sede episcopal y lugar de muerte)'],
+    relacion_arq: 'La Catedral de Lima conserva sus restos. En Mayorga, una iglesia lleva su nombre.',
+    web: []
+  }
+];
+
+const arquitectura = [
+  // VISIGODO
+  { era: 'visigodo', eraLabel: 'Visigodo (ss. VI-VIII)', icon: '⛪',
+    name: 'San Juan de Baños', location: 'Baños de Cerrato, Palencia',
+    desc: 'Considerada la iglesia más antigua de España en pie (año 661). Mandada construir por el rey Recesvinto. Tres naves, cabeceras cuadradas, arcos de herradura.',
+    religious: 'San Leandro y San Isidoro influenciaron la liturgia visigoda que albergó.',
+    link: 'https://www.turismocastillayleon.com', linkLabel: 'Turismo CyL' },
+  { era: 'visigodo', eraLabel: 'Visigodo (ss. VI-VIII)', icon: '⛪',
+    name: 'Santa Comba de Bande', location: 'Bande, Ourense',
+    desc: 'Iglesia visigoda del s. VII, planta de cruz griega. Uno de los mejores ejemplos del arte visigodo con sus columnas de capitel corintio.',
+    religious: '',
+    link: 'https://www.turismo.gal', linkLabel: 'Turismo Galicia' },
+  { era: 'visigodo', eraLabel: 'Visigodo (ss. VI-VIII)', icon: '⛪',
+    name: 'San Pedro de la Nave', location: 'El Campillo, Zamora',
+    desc: 'Iglesia visigoda del s. VII. Trasladada piedra a piedra de su ubicación original por el pantano de Ricobayo. Excepcionales capiteles con escenas bíblicas.',
+    religious: '',
+    link: 'https://www.turismocastillayleon.com', linkLabel: 'Turismo CyL' },
+
+  // PRERROMANICO
+  { era: 'prerromanico', eraLabel: 'Prerrománico (ss. VII-X)', icon: '🏛',
+    name: 'Santa María del Naranco', location: 'Oviedo, Asturias',
+    desc: 'Palacio del rey Ramiro I (848), reconvertido en iglesia. Planta rectangular con miradores abiertos. Patrimonio de la Humanidad UNESCO.',
+    religious: 'Relacionada con la monarquía asturiana que impulsó la Reconquista cristiana.',
+    link: 'https://www.oapn.es/monumentos-prerromanicos', linkLabel: 'UNESCO Monumentos' },
+  { era: 'prerromanico', eraLabel: 'Prerrománico (ss. VII-X)', icon: '🏛',
+    name: 'San Miguel de Lillo', location: 'Oviedo, Asturias',
+    desc: 'Iglesia palatina del s. IX, compañera del Naranco. Arcos de herradura, ventanales con celosías. Patrimonio de la Humanidad.',
+    religious: '',
+    link: 'https://www.patrimoniocultural.gob.es', linkLabel: 'Patrimonio Cultural' },
+  { era: 'prerromanico', eraLabel: 'Prerrománico (ss. VII-X)', icon: '🏛',
+    name: 'San Miguel de Escalada', location: 'Gradefes, León',
+    desc: 'Monasterio mozárabe (913), construido por monjes llegados de Córdoba. Espectacular pórtico con 12 arcos de herradura. La joya del arte mozárabe.',
+    religious: '',
+    link: 'https://www.turismocastillayleon.com', linkLabel: 'Turismo CyL' },
+  { era: 'prerromanico', eraLabel: 'Prerrománico (ss. VII-X)', icon: '🏛',
+    name: 'Santa Cristina de Lena', location: 'Pola de Lena, Asturias',
+    desc: 'Pequeña iglesia asturiana del s. IX sobre un espolón rocoso. Extraordinaria pantalla de canceles y columnillas que separa el presbiterio.',
+    religious: '',
+    link: 'https://www.oapn.es', linkLabel: 'Patrimonio Asturias' },
+
+  // ROMANICO
+  { era: 'romanico', eraLabel: 'Románico (ss. XI-XIII)', icon: '🏰',
+    name: 'Catedral de Santiago de Compostela', location: 'Santiago de Compostela, A Coruña',
+    desc: 'El gran destino de la Edad Media. Construida sobre la tumba del Apóstol Santiago. Su Pórtico de la Gloria (Maestro Mateo) es la obra cumbre del románico español.',
+    religious: 'Meta del Camino de Santiago, que conecta con la devoción impulsada por San Isidoro de Sevilla.',
+    link: 'https://www.catedraldesantiago.es', linkLabel: 'Web Oficial Catedral' },
+  { era: 'romanico', eraLabel: 'Románico (ss. XI-XIII)', icon: '🏰',
+    name: 'Monasterio de Ripoll', location: 'Ripoll, Girona',
+    desc: 'Fundado por Wifredo el Velloso (879). La "Cuna de Cataluña". Su portada románica del s. XII es la más completa de España, una Biblia de piedra.',
+    religious: '',
+    link: 'https://www.monestirderipoll.cat', linkLabel: 'Web Oficial' },
+  { era: 'romanico', eraLabel: 'Románico (ss. XI-XIII)', icon: '🏰',
+    name: 'San Martín de Frómista', location: 'Frómista, Palencia',
+    desc: 'Considerada la iglesia románica más perfecta de España (1066). Planta de cruz latina, tres ábsides, arquería ciega. En el Camino de Santiago.',
+    religious: '',
+    link: 'https://www.fromista.es/san-martin', linkLabel: 'Frómista Turismo' },
+  { era: 'romanico', eraLabel: 'Románico (ss. XI-XIII)', icon: '🏰',
+    name: 'Real Basílica de San Isidoro de León', location: 'León',
+    desc: 'Panteón de los Reyes de León, llamado la "Capilla Sixtina del románico". Alberga los restos de San Isidoro de Sevilla. Sus frescos románicos son únicos en el mundo.',
+    religious: '★ Reliquias de SAN ISIDORO DE SEVILLA.',
+    link: 'https://www.basilicasanisidoro.es', linkLabel: 'Web Oficial' },
+  { era: 'romanico', eraLabel: 'Románico (ss. XI-XIII)', icon: '🏰',
+    name: 'Monasterio de Santo Domingo de Silos', location: 'Burgos',
+    desc: 'Famoso por sus monjes que graban cantos gregorianos. El claustro románico (ss. XI-XII) con sus capiteles historiados es de una belleza excepcional.',
+    religious: '',
+    link: 'https://www.abadiadesilos.es', linkLabel: 'Web Oficial' },
+  { era: 'romanico', eraLabel: 'Románico (ss. XI-XIII)', icon: '🏰',
+    name: 'Catedral de Jaca', location: 'Jaca, Huesca',
+    desc: 'Primera catedral románica de España (c. 1063). Clave en la difusión del románico peninsular por el Camino de Santiago aragonés.',
+    religious: '',
+    link: 'https://www.diocesisdejaca.org', linkLabel: 'Diócesis de Jaca' },
+
+  // GOTICO
+  { era: 'gotico', eraLabel: 'Gótico (ss. XIII-XVI)', icon: '⛩',
+    name: 'Catedral de Burgos', location: 'Burgos',
+    desc: 'Joya del gótico español (iniciada 1221). Torres caladas, claustro magnífico, Capilla del Condestable. Patrimonio de la Humanidad UNESCO.',
+    religious: 'Escenario de la devoncia de Francisco de Vitoria y santos castellanos.',
+    link: 'https://www.catedraldeburgos.es', linkLabel: 'Web Oficial' },
+  { era: 'gotico', eraLabel: 'Gótico (ss. XIII-XVI)', icon: '⛩',
+    name: 'Catedral de León', location: 'León',
+    desc: 'La catedral de la luz. Sus 1.800 m² de vidrieras (ss. XIII-XX) la convierten en la mayor colección de vidrieras medievales de España. Gótico francés puro.',
+    religious: '',
+    link: 'https://www.catedraldeleon.org', linkLabel: 'Web Oficial' },
+  { era: 'gotico', eraLabel: 'Gótico (ss. XIII-XVI)', icon: '⛩',
+    name: 'Catedral de Toledo', location: 'Toledo',
+    desc: 'Primada de España, construida entre 1226 y 1493. El Transparente barroco, el coro, la sacristía con El Greco. Una de las grandes catedrales del mundo.',
+    religious: '★ Sede de SAN ILDEFONSO DE TOLEDO. Relación con El Greco.',
+    link: 'https://www.catedralprimada.es', linkLabel: 'Web Oficial' },
+  { era: 'gotico', eraLabel: 'Gótico (ss. XIII-XVI)', icon: '⛩',
+    name: 'Catedral de Sevilla', location: 'Sevilla',
+    desc: 'La catedral gótica más grande del mundo. Construida sobre la antigua mezquita almohade (s. XV). La Giralda, la Capilla Real, el sepulcro de Colón.',
+    religious: '★ Sede de SAN LEANDRO y SAN ISIDORO DE SEVILLA. Presencia de Bartolomé de las Casas.',
+    link: 'https://www.catedraldesevilla.es', linkLabel: 'Web Oficial' },
+  { era: 'gotico', eraLabel: 'Gótico (ss. XIII-XVI)', icon: '⛩',
+    name: 'Basílica de San Francisco de Palma', location: 'Palma de Mallorca',
+    desc: 'Imponente basílica gótica mallorquina (s. XIII-XIV). Alberga los restos del Beato Raimundo Lulio. Claustro gótico excepcional.',
+    religious: '★ Restos del BEATO RAIMUNDO LULIO.',
+    link: 'https://www.conventosanfranciscopalma.com', linkLabel: 'Web Oficial' },
+  { era: 'gotico', eraLabel: 'Gótico (ss. XIII-XVI)', icon: '⛩',
+    name: 'Monasterio de Caleruega', location: 'Caleruega, Burgos',
+    desc: 'Monasterio gótico-mudéjar fundado por Alfonso X el Sabio sobre la casa natal de Santo Domingo de Guzmán. Relicario del fundador de los dominicos.',
+    religious: '★ Lugar natal de SANTO DOMINGO DE GUZMÁN.',
+    link: 'https://www.monasterio-caleruega.com', linkLabel: 'Web Oficial' },
+
+  // RENACIMIENTO
+  { era: 'renacimiento', eraLabel: 'Renacimiento (s. XVI)', icon: '🏛',
+    name: 'Monasterio de El Escorial', location: 'San Lorenzo de El Escorial, Madrid',
+    desc: 'La octava maravilla del mundo. Diseñado por Juan de Herrera para Felipe II. Monasterio, palacio, panteón real y biblioteca. Símbolo de la España contrarreformista.',
+    religious: 'Símbolo del catolicismo de Felipe II, relacionado con los jesuitas y la Contrarreforma en que participaron Vitoria, Suárez y los grandes teólogos.',
+    link: 'https://www.patrimonionacional.es/el-escorial', linkLabel: 'Patrimonio Nacional' },
+  { era: 'renacimiento', eraLabel: 'Renacimiento (s. XVI)', icon: '🏛',
+    name: 'Universidad de Salamanca', location: 'Salamanca',
+    desc: 'La más antigua de España (1218). Su fachada plateresca (c. 1529) es la obra cumbre de este estilo exclusivamente español. Escenario de la "Escuela de Salamanca".',
+    religious: '★ Cátedra de FRANCISCO DE VITORIA, LUIS DE GRANADA, DOMINGO DE SOTO, FRAY LUIS DE LEÓN.',
+    link: 'https://www.usal.es', linkLabel: 'Universidad Salamanca' },
+  { era: 'renacimiento', eraLabel: 'Renacimiento (s. XVI)', icon: '🏛',
+    name: 'Convento de San Esteban', location: 'Salamanca',
+    desc: 'Convento dominico con una de las más bellas fachadas plateresco-churriguerescas de España. Escenario intelectual de los grandes teólogos dominicos del s. XVI.',
+    religious: '★ Centro de FRANCISCO DE VITORIA, DOMINGO DE SOTO, MELCHOR CANO, BARTOLOMÉ DE LAS CASAS.',
+    link: 'https://www.conventodesanesteban.es', linkLabel: 'Web Oficial' },
+  { era: 'renacimiento', eraLabel: 'Renacimiento (s. XVI)', icon: '🏛',
+    name: 'Convento de Santa Teresa (Ávila)', location: 'Ávila',
+    desc: 'Construido sobre el lugar de nacimiento de Santa Teresa (s. XVII). Contiene la capilla del dormitorio donde nació, su dedo relicario y objetos personales.',
+    religious: '★ Lugar natal de SANTA TERESA DE JESÚS.',
+    link: 'https://www.teresadejesusavila.com', linkLabel: 'Web Oficial' },
+
+  // BARROCO
+  { era: 'barroco', eraLabel: 'Barroco (ss. XVII-XVIII)', icon: '✨',
+    name: 'Catedral de Santiago (Fachada Obradoiro)', location: 'Santiago de Compostela',
+    desc: 'La fachada más famosa del barroco español (1738-1750), obra de Fernando Casas Novoa. Torres gemelas que se elevan 75m. Icono universal del Camino de Santiago.',
+    religious: '',
+    link: 'https://www.catedraldesantiago.es', linkLabel: 'Web Oficial' },
+  { era: 'barroco', eraLabel: 'Barroco (ss. XVII-XVIII)', icon: '✨',
+    name: 'Santuario de Loyola', location: 'Azpeitia, Guipúzcoa',
+    desc: 'Monumental basílica barroca (1738) diseñada por Carlo Fontana. Construida sobre la casa natal de San Ignacio de Loyola. Cúpula de 65 metros de altura.',
+    religious: '★ Lugar natal de SAN IGNACIO DE LOYOLA.',
+    link: 'https://www.santuariodeloyola.org', linkLabel: 'Web Oficial' },
+  { era: 'barroco', eraLabel: 'Barroco (ss. XVII-XVIII)', icon: '✨',
+    name: 'El Transparente (Catedral de Toledo)', location: 'Toledo',
+    desc: 'Obra maestra del barroco español (1721-32) por Narciso Tomé. Un retablo-trampa-antoja que hace entrar luz cenital al tabernáculo. Pinturas, escultura y arquitectura fusionadas.',
+    religious: '★ En la Catedral ligada a SAN ILDEFONSO DE TOLEDO.',
+    link: 'https://www.catedralprimada.es', linkLabel: 'Catedral Toledo' },
+  { era: 'barroco', eraLabel: 'Barroco (ss. XVII-XVIII)', icon: '✨',
+    name: 'Basílica de El Pilar', location: 'Zaragoza',
+    desc: 'Una de las mayores basílicas barrocas del mundo. Según la tradición, la Virgen se apareció al apóstol Santiago en este lugar en el año 40 d.C.',
+    religious: '',
+    link: 'https://www.basilicadelpilar.es', linkLabel: 'Web Oficial' },
+  { era: 'barroco', eraLabel: 'Barroco (ss. XVII-XVIII)', icon: '✨',
+    name: 'Santuario de Javier', location: 'Javier, Navarra',
+    desc: 'Castillo medieval-renacentista y santuario barroco, lugar de nacimiento de San Francisco Javier. Famosas Javieradas de peregrinación cada marzo.',
+    religious: '★ Lugar natal de SAN FRANCISCO JAVIER.',
+    link: 'https://www.franciscojavier.com', linkLabel: 'Web Oficial' },
+
+  // NEOGÓTICO
+  { era: 'neogótico', eraLabel: 'Neogótico y Eclecticismo (s. XIX)', icon: '🗼',
+    name: 'Catedral de la Almudena', location: 'Madrid',
+    desc: 'Catedral de Madrid (1883-1993), con cripta románica, nave neogótica y fachada neoclásica. Junto al Palacio Real. Consagrada por Juan Pablo II en 1993.',
+    religious: '',
+    link: 'https://www.catedraldelaalmudena.es', linkLabel: 'Web Oficial' },
+  { era: 'neogótico', eraLabel: 'Neogótico y Eclecticismo (s. XIX)', icon: '🗼',
+    name: 'Basílica de San Francisco el Grande', location: 'Madrid',
+    desc: 'Iglesia neoclásica con la cúpula más grande de España (33m de diámetro). Museo de arte sacro con pinturas de Goya, Zurbarán y otros maestros.',
+    religious: '',
+    link: 'https://www.basilicasanfranciscoelgrande.es', linkLabel: 'Web Oficial' },
+
+  // MODERNISMO
+  { era: 'modernismo', eraLabel: 'Modernismo Religioso (ss. XIX-XX)', icon: '🌿',
+    name: 'Sagrada Familia', location: 'Barcelona',
+    desc: 'Obra cumbre de Antoni Gaudí (1882-actualidad). El templo más visitado de España. Un universo simbólico en piedra, luz y geometría. Patrimonio de la Humanidad y Basílica Menor.',
+    religious: '★ Obra de ANTONI GAUDÍ, en proceso de beatificación.',
+    link: 'https://www.sagradafamilia.org', linkLabel: 'Web Oficial' },
+  { era: 'modernismo', eraLabel: 'Modernismo Religioso (ss. XIX-XX)', icon: '🌿',
+    name: 'Cripta de la Colònia Güell', location: 'Santa Coloma de Cervelló, Barcelona',
+    desc: 'Cripta inacabada de Gaudí (1908-1917), laboratorio de la Sagrada Familia. Arquitectura orgánica en cerámica y piedra volcánica. Patrimonio de la Humanidad UNESCO.',
+    religious: '★ Obra previa de GAUDÍ para la Sagrada Familia.',
+    link: 'https://www.gaudicoloniaguell.org', linkLabel: 'Web Oficial' },
+  { era: 'modernismo', eraLabel: 'Modernismo Religioso (ss. XIX-XX)', icon: '🌿',
+    name: 'Catedral de Palma (Restauración Gaudí)', location: 'Palma de Mallorca',
+    desc: 'Catedral gótica donde Gaudí trabajó de 1904 a 1914 en su restauración. Trasladó el coro al presbiterio y diseñó el baldaquino. Una intervención polémica y única.',
+    religious: '★ Intervención de GAUDÍ. Basílica de San Francisco custodia a RAIMUNDO LULIO.',
+    link: 'https://www.catedraldemallorca.org', linkLabel: 'Web Oficial' }
+];
+
+const rutas = [
+  {
+    icon: '🚶', name: 'Camino de Santiago Francés',
+    duracion: '30-35 días andando | 12-15 días en coche',
+    km: '780 km desde Saint-Jean-Pied-de-Port',
+    desc: 'La ruta de peregrinación más famosa del mundo. Une el románico del Camino con la meta final: la Catedral de Santiago.',
+    stops: [
+      { name: 'Pamplona — Catedral románica (s. XII)', time: '1 día', note: 'Ciudad de San Francisco Javier; a 50 km está Javier' },
+      { name: 'Logroño — La Rioja vinícola y románica', time: '1 día', note: 'Camino del Cister por los monasterios de La Rioja' },
+      { name: 'Burgos — Catedral Gótica UNESCO', time: '1-2 días', note: 'Cuna de Francisco de Vitoria; Monasterio de Santo Domingo de Silos cerca (45 min)' },
+      { name: 'León — Catedral de la luz y San Isidoro', time: '1-2 días', note: '★ Reliquias de San Isidoro; Panteón Real (frescos románicos únicos)' },
+      { name: 'Frómista — San Martín (románico perfecto)', time: '2 horas', note: 'Descanso obligado en el camino; iglesia del s. XI' },
+      { name: 'O Cebreiro — Primer pueblo gallego', time: '3 horas', note: 'Iglesia prerrománica, el Grial de O Cebreiro' },
+      { name: 'Santiago de Compostela — Meta final', time: '2-3 días', note: 'Catedral, fachada barroca del Obradoiro, Pórtico de la Gloria' }
+    ]
+  },
+  {
+    icon: '⛪', name: 'Ruta del Prerrománico Asturiano',
+    duracion: '2-3 días',
+    km: 'Circular desde Oviedo (~80 km)',
+    desc: 'Los monumentos prerrománicos asturianos son Patrimonio de la Humanidad. Una joya única en Europa que representa el primer arte cristiano de la Reconquista.',
+    stops: [
+      { name: 'Oviedo — Catedral (Cámara Santa, Sudario de Turín)', time: 'Medio día', note: 'Tesoro catedralicio excepcional' },
+      { name: 'Santa María del Naranco', time: '1 hora', note: 'UNESCO; vistas panorámicas de Oviedo' },
+      { name: 'San Miguel de Lillo', time: '1 hora', note: 'A 300m del Naranco; visitar combinado' },
+      { name: 'Santullano (San Julián de los Prados)', time: '1 hora', note: 'Iglesia de Ramiro I; pinturas murales del s. IX' },
+      { name: 'Santa Cristina de Lena', time: '1.5 horas', note: 'A 30 km; sobre roca, única en su género' }
+    ]
+  },
+  {
+    icon: '🕊', name: 'Ruta Teresiana — Ávila, Alba y Salamanca',
+    duracion: '3-4 días',
+    km: '~200 km',
+    desc: 'Siguiendo los pasos de Santa Teresa de Jesús y San Juan de la Cruz. Conventos, monasterios y paisajes de la mística castellana del Siglo de Oro.',
+    stops: [
+      { name: 'Ávila — Convento de Santa Teresa (lugar de nacimiento)', time: 'Medio día', note: '★ La ciudad más medieval de España; murallas románicas perfectas' },
+      { name: 'Ávila — Convento de la Encarnación', time: '1.5 horas', note: 'Donde Teresa fue 27 años monja; visita imprescindible' },
+      { name: 'Salamanca — Convento de San José', time: '1 hora', note: 'Primer convento reformado por Teresa (1562)' },
+      { name: 'Salamanca — Universidad y San Esteban', time: 'Medio día', note: '★ Cátedra de Vitoria, De Soto, Fray Luis de León; fachada plateresca' },
+      { name: 'Alba de Tormes — Reliquias de Santa Teresa', time: '2 horas', note: '★ Lugar de muerte de Teresa; corazón y brazo relicarios' },
+      { name: 'Fontiveros — Lugar natal de San Juan de la Cruz', time: '1 hora', note: 'Pequeño pueblo abulense; ermita y museo' },
+      { name: 'Segovia — Convento de los Carmelitas', time: '1.5 horas', note: '★ Sepulcro de San Juan de la Cruz; Museo del santo' }
+    ]
+  },
+  {
+    icon: '⚓', name: 'Ruta de los Jesuitas — Loyola, Javier y Manresa',
+    duracion: '4-5 días',
+    km: '~600 km (País Vasco, Navarra, Cataluña)',
+    desc: 'Los lugares fundacionales de la Compañía de Jesús: del nacimiento de Loyola a la iluminación de Manresa, siguiendo los pasos de Ignacio y Francisco Javier.',
+    stops: [
+      { name: 'Azpeitia — Santuario de Loyola', time: 'Medio día', note: '★ Lugar natal de San Ignacio; basílica barroca monumental; Museo jesuita' },
+      { name: 'Javier — Castillo-Santuario de San Francisco Javier', time: '2 horas', note: '★ Lugar natal de Javier; Cristo que sudó sangre; Javieradas en marzo' },
+      { name: 'Pamplona — Herida de Ignacio (Ciudadela)', time: '2 horas', note: 'La herida en la batalla de Pamplona cambió su vida' },
+      { name: 'Montserrat — Vigilia de Ignacio ante la Virgen', time: 'Medio día', note: 'Monasterio benedictino; Virgen Negra; entregó su espada aquí' },
+      { name: 'Manresa — Cueva de San Ignacio', time: '2 horas', note: '★ Escribió los Ejercicios Espirituales en esta cueva; Centro jesuita' }
+    ]
+  },
+  {
+    icon: '🌟', name: 'Ruta del Siglo de Oro Espiritual — Castilla',
+    duracion: '5-6 días',
+    km: '~500 km',
+    desc: 'Descubrir la España del gran florecimiento espiritual del s. XVI: Santos, teólogos, místicos y artistas que hicieron de Castilla el corazón espiritual del mundo.',
+    stops: [
+      { name: 'Toledo — Catedral Primada y El Greco', time: '1 día', note: '★ Sede de San Ildefonso; El Transparente barroco; Museo del Greco' },
+      { name: 'Ávila — Ciudad amurallada de Santa Teresa', time: '1 día', note: '★ Santa Teresa + San Pedro de Alcántara; murallas medievales' },
+      { name: 'Salamanca — Universidad del Pensamiento', time: '1-2 días', note: '★ Vitoria, Soto, Fray Luis, Las Casas; Catedral nueva y vieja' },
+      { name: 'Zamora — Arte románico excepcional', time: 'Medio día', note: 'La ciudad con más románico por m² del mundo; catedral con cimborrio único' },
+      { name: 'Valladolid — Debates de Las Casas', time: 'Medio día', note: '★ Debates sobre los indígenas de Bartolomé de las Casas; Colegio San Gregorio' },
+      { name: 'Segovia — San Juan de la Cruz y alcázar', time: 'Medio día', note: '★ Sepulcro de San Juan; Alcázar; Acueducto romano' }
+    ]
+  },
+  {
+    icon: '🌊', name: 'Ruta Andaluza — Santos y Catedrales del Sur',
+    duracion: '5-7 días',
+    km: '~600 km por Andalucía',
+    desc: 'El sur de España, donde el islam y el cristianismo crearon un patrimonio único. Desde las grandes catedrales hasta los santos que transformaron esta tierra.',
+    stops: [
+      { name: 'Sevilla — Catedral (3ª más grande del mundo)', time: '1-2 días', note: '★ Sede de San Leandro y San Isidoro; Giralda; Bartolomé de las Casas; Ángela de la Cruz' },
+      { name: 'Sevilla — Casa Madre Hermanas de la Cruz', time: '1 hora', note: '★ Santa Ángela de la Cruz; barrio de San Roque' },
+      { name: 'Córdoba — Mezquita-Catedral UNESCO', time: '1 día', note: 'La Mezquita convertida en catedral; ejemplo del arte cristiano sobre el islam' },
+      { name: 'Montilla — Juan de Ávila y Apostolado', time: '2 horas', note: '★ Apostolado de San Juan de Ávila; Iglesia de Santiago' },
+      { name: 'Baeza — Ciudad Renacentista UNESCO', time: '1 día', note: '★ Universidad de Juan de Ávila; catedral; conjunto renacentista único' },
+      { name: 'Úbeda — San Juan de la Cruz (muerte)', time: '1 día', note: '★ Oratorio donde murió San Juan de la Cruz; capilla del Salvador plateresca' },
+      { name: 'Granada — Catedral y Capilla Real', time: '1 día', note: 'Sepulcros de los Reyes Católicos; Luis de Granada vivió aquí' }
+    ]
+  },
+  {
+    icon: '🎨', name: 'Ruta Gaudí y Arte Sacro Catalán',
+    duracion: '4-5 días',
+    km: '~200 km por Cataluña',
+    desc: 'El arte sacro catalán desde el románico pirenaico hasta la cumbre del modernismo gaudiano. Una ruta visual y espiritual sin igual.',
+    stops: [
+      { name: 'Barcelona — Sagrada Familia', time: '3-4 horas', note: '★ Obra de Gaudí; reservar con meses de antelación; imprescindible' },
+      { name: 'Barcelona — Palau Güell y Park Güell', time: '1 día', note: 'Obras de Gaudí; Park Güell con Casa Museu Gaudí' },
+      { name: 'Santa Coloma de Cervelló — Cripta Güell', time: '2 horas', note: '★ Laboratorio de la Sagrada Familia; UNESCO; menos turistas' },
+      { name: 'Montserrat — Monasterio benedictino', time: 'Medio día', note: 'Virgen Negra; paisaje de roca única; imprescindible' },
+      { name: 'Manresa — Cueva de San Ignacio', time: '2 horas', note: 'Jesús Gaudí también estuvo en Cataluña' },
+      { name: 'Ripoll — Monasterio románico (s. IX)', time: '2 horas', note: 'Portada románica más completa de España; "cuna de Cataluña"' },
+      { name: 'Museu Nacional d\'Art de Catalunya (MNAC)', time: 'Medio día', note: 'Mayor colección de arte románico del mundo; frescos originales de iglesias pirenaicas' }
+    ]
+  },
+  {
+    icon: '🏝', name: 'Ruta Mallorquina — Lulio, Javier y Gaudí',
+    duracion: '3-4 días',
+    km: 'Circular por Mallorca (~200 km)',
+    desc: 'Mallorca oculta un tesoro espiritual: del beato Raimundo Lulio al misionero Junípero Serra, pasando por la intervención de Gaudí en su catedral.',
+    stops: [
+      { name: 'Palma — Catedral (Seu) e intervención de Gaudí', time: 'Medio día', note: '★ Gaudí trabajó aquí 1904-1914; gótico-renacentista; impresionante rosetón' },
+      { name: 'Palma — Basílica de San Francisco', time: '1.5 horas', note: '★ Restos del Beato Raimundo Lulio; claustro gótico excepcional' },
+      { name: 'Randa — Monte de la iluminación de Lulio', time: '2 horas', note: '★ Santuario de Cura; donde Lulio escribió el Ars Magna; vistas panorámicas' },
+      { name: 'Petra — Casa Museo Junípero Serra', time: '2 horas', note: '★ Lugar natal del fundador de California; museo etnográfico' },
+      { name: 'Miramar — Valle donde Lulio fundó escuela', time: '1 hora', note: 'Paisaje de olivos; finca de archiduque Luis Salvador; ermita' }
+    ]
+  }
+];
+
+// ================================================================
+// RENDER FUNCTIONS
+// ================================================================
+
+let currentFilter = 'todos';
+let currentSearch = '';
+let currentArchFilter = 'todos';
+
+function renderReligiosos() {
+  const grid = document.getElementById('religiosGrid');
+  const filtered = religiosos.filter(r => {
+    const matchCat = currentFilter === 'todos' || r.cat === currentFilter;
+    const q = currentSearch.toLowerCase();
+    const matchSearch = !q || r.name.toLowerCase().includes(q) ||
+      r.desc.toLowerCase().includes(q) ||
+      r.localizaciones.some(l => l.toLowerCase().includes(q)) ||
+      r.obras.some(o => o.toLowerCase().includes(q));
+    return matchCat && matchSearch;
+  });
+
+  grid.innerHTML = filtered.map(r => `
+    <div class="card" onclick="openDetail(${r.id})">
+      <div class="card-header">
+        <div class="card-icon">${r.icon}</div>
+        <div>
+          <div class="card-title">${r.name}</div>
+          <div class="card-meta">${r.period}</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">${r.desc.substring(0,120)}...</p>
+        <div class="tag-list">
+          <span class="tag tag-cat">${catLabel(r.cat)}</span>
+          ${r.localizaciones[0] ? `<span class="tag tag-era">${r.localizaciones[0].split('(')[0].trim()}</span>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function catLabel(cat) {
+  const m = { santo: 'Santo/Mística', teologo: 'Teólogo', misionero: 'Misionero', fundador: 'Fundador/a', cultural: 'Cultural/Artístico' };
+  return m[cat] || cat;
+}
+
+function filterReligiosos(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderReligiosos();
+}
+
+function searchReligiosos(q) {
+  currentSearch = q;
+  renderReligiosos();
+}
+
+function openDetail(id) {
+  const r = religiosos.find(x => x.id === id);
+  if (!r) return;
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-icon">${r.icon}</div>
+    <div class="detail-name">${r.name}</div>
+    <div class="detail-period">${r.period}</div>
+    <div class="detail-section-title">Vida y Legado</div>
+    <p class="detail-text">${r.desc}</p>
+    <div class="detail-section-title">Obras Principales</div>
+    <ul class="works-list">${r.obras.map(o => `<li>${o}</li>`).join('')}</ul>
+    <div class="detail-section-title">Localizaciones</div>
+    ${r.localizaciones.map(l => `<span class="location-pill">📍 ${l}</span>`).join('')}
+    ${r.relacion_arq ? `<div class="detail-section-title">Relación con la Arquitectura</div><p class="detail-text">${r.relacion_arq}</p>` : ''}
+    ${r.web && r.web.length ? `<div class="detail-section-title">Webs Oficiales</div>${r.web.map(w => `<a href="${w.url}" target="_blank" class="web-link">🔗 ${w.label}</a>`).join('')}` : ''}
+  `;
+  document.getElementById('detailPanel').classList.add('open');
+  document.getElementById('overlay').classList.add('active');
+}
+
+function closeDetail() {
+  document.getElementById('detailPanel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('active');
+}
+
+function renderArchitecture() {
+  const eras = [...new Set(arquitectura.map(a => a.era))];
+  const eraLabels = {};
+  arquitectura.forEach(a => eraLabels[a.era] = a.eraLabel);
+
+  const content = document.getElementById('archContent');
+  const filteredEras = currentArchFilter === 'todos' ? eras : eras.filter(e => e === currentArchFilter);
+
+  content.innerHTML = filteredEras.map(era => {
+    const items = arquitectura.filter(a => a.era === era);
+    return `
+      <div class="arch-era">
+        <div class="arch-era-title">${eraLabels[era]}</div>
+        <div class="arch-grid">
+          ${items.map(a => `
+            <div class="arch-item">
+              <div class="arch-name">${a.icon} ${a.name}</div>
+              <div class="arch-location">📍 ${a.location}</div>
+              <p class="arch-desc">${a.desc}</p>
+              ${a.religious ? `<div class="arch-religious">${a.religious}</div>` : ''}
+              <a href="${a.link}" target="_blank" class="arch-link">🔗 ${a.linkLabel}</a>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function filterArch(era, btn) {
+  currentArchFilter = era;
+  document.querySelectorAll('#arquitectura .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderArchitecture();
+}
+
+function renderRutas() {
+  document.getElementById('rutasContent').innerHTML = rutas.map((r, i) => `
+    <div class="route-card">
+      <div class="route-header" onclick="toggleRuta(${i})">
+        <div class="route-title-wrap">
+          <span class="route-emoji">${r.icon}</span>
+          <div>
+            <div class="route-name">${r.name}</div>
+            <div class="route-info">⏱ ${r.duracion} &nbsp;|&nbsp; ${r.km}</div>
+          </div>
+        </div>
+        <span class="route-toggle" id="toggle-${i}">▼</span>
+      </div>
+      <div class="route-body" id="ruta-${i}">
+        <p style="margin-bottom:20px;font-size:0.9rem;color:rgba(245,237,214,0.75);line-height:1.7;">${r.desc}</p>
+        <ul class="route-stops">
+          ${r.stops.map(s => `
+            <li>
+              <div class="stop-name">${s.name}</div>
+              <div class="stop-time">⏱ Tiempo estimado: ${s.time}</div>
+              ${s.note ? `<div class="stop-note">💡 ${s.note}</div>` : ''}
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleRuta(i) {
+  const body = document.getElementById(`ruta-${i}`);
+  const toggle = document.getElementById(`toggle-${i}`);
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+
+// ================================================================
+// NAVIGATION
+// ================================================================
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const tabs = document.querySelectorAll('.tab-btn');
+  const map = { intro: 0, religiosos: 1, arquitectura: 2, rutas: 3 };
+  if (map[id] !== undefined) tabs[map[id]].classList.add('active');
+}
+
+function setFilter(f) { currentFilter = f; }
+
+// ================================================================
+// INIT
+// ================================================================
+
+renderReligiosos();
+renderArchitecture();
+renderRutas();
+</script>
+</body>
+</html>
